@@ -7,9 +7,7 @@ const ManagerSettings = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();
 
   const [ updateManager ] = useUpdateManagerMutation();
-  // im checking something over here
-
-  console.log("hello");
+  
   if (isLoading) {
     return <p>Loading...</p>;
   }
