@@ -9,6 +9,7 @@ import FiltersBar from "./FiltersBar";
 import FiltersFull from "./FiltersFull";
 import { setFilters } from "@/state";
 import dynamic from "next/dynamic";
+import Listings from "./Listings";
 
 
 const SearchPage = () => {
@@ -64,7 +65,9 @@ const SearchPage = () => {
           <FiltersFull />
         </div>
         <Map/>
-        <div className="basis-4/12 overflow-y-auto">{/* <Listings/> */}</div>
+        <div className="basis-4/12 overflow-y-auto">
+          <Listings/>
+        </div>
       </div>
     </div>
   );
