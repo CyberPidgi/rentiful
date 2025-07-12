@@ -120,24 +120,11 @@ export const getProperties = async (
       const degrees = radiusInKm / 111; // Approximate conversion from km to degrees
 
       whereConditions.push(
-        Prisma.sql`ST_DWithin(l.coordinates::geometry, SetSRID(ST_MakePoint(${lon}, ${lat}), 4326), ${degrees})`
+        Prisma.sql`ST_DWithin(l.coordinates::geometry, ST_SetSRID(ST_MakePoint(${lon}, ${lat}), 4326), ${degrees})`
       );
     }
 
-    const searchQuery = Prisma.sql`
-      SELECT p.*,
-      json_build_object(
-        'id', l.id,
-        'address', l.address,
-        'city', l.city,
-        'state', l.state,
-        'country', l.country,
-        'postalCode', l."postalCode",
-        'coordinates', json_build_object(
-          'latitude', ST_Y(l."coordinates"::geometry),
-          'longitude', ST_X(l."coordinates"::geometry)
-        ),
-      ) as location
+    const searchQuery = Prisma.sql`SELECT p.*, json_build_object('id', l.id, 'address', l.address, 'city', l.city, 'state', l.state, 'country', l.country, 'postalCode', l."postalCode", 'coordinates', json_build_object('latitude', ST_Y(l."coordinates"::geometry), 'longitude', ST_X(l."coordinates"::geometry))) as location
       FROM "Property" p
       JOIN "Location" l ON p."locationId" = l.id
       ${
@@ -146,6 +133,8 @@ export const getProperties = async (
           : Prisma.empty
       }
     `;
+
+    console.log("Search Query:", searchQuery);
 
     const properties = await prisma.$queryRaw(searchQuery);
 

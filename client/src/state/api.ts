@@ -1,7 +1,8 @@
-import { createNewUserInDatabase } from "@/lib/utils";
-import { Manager, Tenant } from "@/types/prismaTypes";
+import { cleanParams, createNewUserInDatabase } from "@/lib/utils";
+import { Manager, Property, Tenant } from "@/types/prismaTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
+import { FiltersState } from ".";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -18,7 +19,7 @@ export const api = createApi({
     },
   }),
   reducerPath: "api",
-  tagTypes: ["Managers", "Tenants"],
+  tagTypes: ["Managers", "Tenants", "Properties"],
   endpoints: (build) => ({
     getAuthUser: build.query<User, void>({
       queryFn: async (_, _queryApi, _extraOptions, fetchWithBQ) => {
@@ -85,6 +86,41 @@ export const api = createApi({
         invalidatesTags: (result) => [{ type: "Manager", id: result?.id }],
       }),
     }),
+
+    // Property related endpoints
+    getProperties: build.query<Property[], Partial<FiltersState> & { favoriteIds? : number[] }>({
+      query: (filters) => {
+        const params = cleanParams({
+          location: filters.location,
+          priceMin: filters.priceRange?.[0],
+          priceMax: filters.priceRange?.[1],
+          squareFeetMin: filters.squareFeet?.[0],
+          squareFeetMax: filters.squareFeet?.[1],
+          latitude: filters.coordinates?.[1],
+          longitude: filters.coordinates?.[0],
+          beds: filters.beds,
+          baths: filters.baths,
+          favoriteIds: filters.favoriteIds?.join(","),
+          availableFrom: filters.availableFrom,
+          amenities: filters.amenities?.join(","),
+          propertyType: filters.propertyType,
+
+        })
+
+        return {
+          url: 'properties',
+          params: params,
+        }
+      },
+      providesTags: (result) => (
+        result ? [
+          ...result.map(({ id }) => ({ type: 'Properties' as const, id })),
+          { type: 'Properties', id: 'LIST' }
+        ] : [
+          { type: 'Properties', id: 'LIST' }
+        ]
+      )
+    })
   }),
 });
 
@@ -92,4 +128,5 @@ export const {
   useGetAuthUserQuery,
   useUpdateTenantMutation,
   useUpdateManagerMutation,
+  useGetPropertiesQuery,
 } = api;
