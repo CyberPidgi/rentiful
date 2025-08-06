@@ -31,6 +31,13 @@ export const getLeasePayments = async (req: Request, res: Response): Promise<voi
     const leasePayments = await prisma.payment.findMany({
       where: { leaseId: Number(id) },
     });
+
+    if (leasePayments.length === 0) {
+      res.status(404).json({ message: 'No payments found for this lease' });
+      return;
+    }
+
+    res.status(200).json(leasePayments);
   } catch (error) {
     console.error('Error fetching lease payments:', error);
     res.status(500).json({ message: 'Internal server error' });
