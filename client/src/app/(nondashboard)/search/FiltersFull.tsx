@@ -66,6 +66,11 @@ const FiltersFull = () => {
     });
   }
 
+  const handleLocationSearch = async () => {
+    // Implement location search logic here
+    // This could involve fetching suggestions or filtering properties based on the input
+  }
+
   if (!isFiltersFullOpen) {
     return null;
   }

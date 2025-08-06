@@ -4,7 +4,7 @@ import { NAVBAR_HEIGHT } from "@/lib/constants";
 import { cleanParams, cn } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/state/redux";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useMemo } from "react";
+import React, { Suspense, useEffect, useMemo } from "react";
 import FiltersBar from "./FiltersBar";
 import FiltersFull from "./FiltersFull";
 import { setFilters } from "@/state";
@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 import Listings from "./Listings";
 
 
-const SearchPage = () => {
+const SearchPageComponent = () => {
   const Map = useMemo(() => dynamic(
       () => import('@/components/Map'),
       { 
@@ -43,7 +43,7 @@ const SearchPage = () => {
 
     const cleanedFilters = cleanParams(initialFilters);
     dispatch(setFilters(cleanedFilters));  
-  }, []);
+  }, [dispatch, searchParams]);
 
   return (
     <div
@@ -72,5 +72,13 @@ const SearchPage = () => {
     </div>
   );
 };
+
+const SearchPage = () => {
+  return (
+    <Suspense fallback={<div>Loading search page...</div>}>
+      <SearchPageComponent/>
+    </Suspense>
+  )
+}
 
 export default SearchPage;

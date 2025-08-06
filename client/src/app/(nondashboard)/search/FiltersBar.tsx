@@ -71,7 +71,7 @@ const FiltersBar = () => {
   return (
     <div className="flex justify-between w-full items-center py-5">
       {/* Filters */}
-      <div className="flex justify-between items-center gap-4 p-2">
+      <div className="flex justify-between items-center gap-4 p-2 z-10">
         {/* All Filters */}
         <Button
           variant="outline"

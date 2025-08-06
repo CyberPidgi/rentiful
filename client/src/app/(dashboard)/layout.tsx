@@ -6,8 +6,7 @@ import { SidebarProvider } from '@/components/ui/sidebar'
 import { NAVBAR_HEIGHT } from '@/lib/constants'
 import { useGetAuthUserQuery } from '@/state/api'
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
-import { set } from 'zod';
+import React, { useEffect } from 'react'
 
 const DashboardLayout = ({ children }:  { children: React.ReactNode }) => {
 
@@ -34,7 +33,7 @@ const DashboardLayout = ({ children }:  { children: React.ReactNode }) => {
         }
       );
     }
-  }, [authUser])
+  }, [authUser, pathname, userType, router])
 
   
   return (

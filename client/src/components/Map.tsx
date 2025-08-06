@@ -27,7 +27,7 @@ const Map = () => {
   console.log("Filters:", filters);
 
   return (
-    <div className="basis-5/12 grow relative rounded-xl border-black border">
+    <div className="basis-5/12 grow relative rounded-xl border-black border z-0">
       <MapContainer
         className="w-full h-full"
         center={[filters?.coordinates[1], filters?.coordinates[0]]}

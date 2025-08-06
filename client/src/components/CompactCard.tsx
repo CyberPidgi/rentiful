@@ -5,19 +5,19 @@ import Image from "next/image";
 import { Bath, Bed, Heart, House, Star } from "lucide-react";
 import Link from "next/link";
 
-const Card = ({
+const CompactCard = ({
   property,
   isFavorite,
   onFavoriteToggle,
   showFavoriteButton,
   propertyLink,
-}: CardProps) => {
+}: CardCompactProps) => {
   const [imgSrc, setImgSrc] = useState<string>(
     property.photoUrls?.[0] || "/placeholder.jpg"
   );
   return (
-    <div className="bg-white rounded-xl overflow-hidden shadow-lg w-full mb-5">
-      <div className="relative">
+    <div className="bg-white rounded-xl overflow-hidden shadow-lg w-full flex h-40 mb-5">
+      <div className="relative w-1/3">
         <div className="w-full h-48 relative">
           <Image
             src={imgSrc}
@@ -108,4 +108,4 @@ const Card = ({
   );
 };
 
-export default Card;
+export default CompactCard;

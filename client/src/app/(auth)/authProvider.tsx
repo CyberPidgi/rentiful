@@ -12,10 +12,8 @@ import {
   View,
 } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import { signUp } from "aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import { User } from "lucide-react";
 
 const awsExports = {
   Auth: {
@@ -51,7 +49,7 @@ const components = {
       return (
         <View className="text-center mt-4">
           <p className="text-muted-foreground">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <span
               className="text-primary-500 cursor-pointer hover:underline"
               onClick={toSignUp}
@@ -169,7 +167,7 @@ export default function Auth({ children }: { children: React.ReactNode }) {
       router.push("/");
     }
   
-  }, [user, isAuthPage, isDashboardPage]);
+  }, [user, isAuthPage, isDashboardPage, router]);
 
   if (!isAuthPage && !isDashboardPage) {
     return (
