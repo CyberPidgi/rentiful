@@ -4,7 +4,7 @@
     "leaflet-defaulticon-compatibility": "^0.1.2",
     "react": "^19.0.0-rc.1",
     "react-dom": "^19.0.0-rc.1",
-    "react-leaflet": "^5.0.0-rc.2"
+    "react-leaflet": "^5.0.0"
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.19"
